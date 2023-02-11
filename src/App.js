@@ -250,6 +250,8 @@ const imagesList = [
   },
 ]
 
+console.log(imagesList.length)
+
 // Replace your code here
 const App = () => {
   const [randomImage, setRandomImage] = useState(imagesList[0])
@@ -257,17 +259,34 @@ const App = () => {
   const [timer, setTimer] = useState(60)
   const [activeTabId, setActiveTabId] = useState(tabsList[0].tabId)
 
-  //   const getRandomImage = () => {
-  //     const getRandomImage = imagesList.Math.ceil(
-  //       Math.random(imagesList.length) - 1,
-  //     )
-  //     setRandomImage(getRandomImage)
-  //   }
+  //   const number = Math.ceil(Math.random() * 10)
+  //   console.log(number)
+
+  const getRandomImages = () => {
+    const getRandomImage = Math.ceil(Math.random() * (imagesList.length - 1))
+    console.log(getRandomImage)
+
+    setRandomImage(imagesList[getRandomImage])
+  }
 
   const filteredList = imagesList.filter(item => item.category === activeTabId)
 
   const getImages = id => {
     setActiveTabId(id)
+  }
+
+  const getTimer = () => {
+    if (score === 1) {
+      setInterval(() => {
+        setTimer(timer - 1)
+      }, 1000)
+    }
+  }
+
+  const getImageThumbnails = id => {
+    getRandomImages()
+    setScore(score + 1)
+    getTimer()
   }
 
   return (
@@ -311,7 +330,11 @@ const App = () => {
           </ul>
           <ul className="thumbnail-image-list">
             {filteredList.map(item => (
-              <ImageThumbnails key={item.id} imageDetails={item} />
+              <ImageThumbnails
+                key={item.id}
+                imageDetails={item}
+                thunbnailId={getImageThumbnails}
+              />
             ))}
           </ul>
         </div>

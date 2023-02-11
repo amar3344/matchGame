@@ -3,3 +3,11 @@
   border: none;
   border-radius: 10px;
 }
+
+.thumbnail-button {
+  border: none;
+  background-color: transparent;
+  margin: 0px;
+  padding: 0px;
+  cursor: pointer;
+}

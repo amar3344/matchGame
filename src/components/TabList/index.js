@@ -2,7 +2,6 @@ import './index.css'
 
 const TabList = props => {
   const {tabDetails, getTabImageThumbnails, isActive} = props
-  console.log(props)
 
   const getTabImage = () => {
     getTabImageThumbnails(tabDetails.tabId)
