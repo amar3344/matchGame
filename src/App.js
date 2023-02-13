@@ -1,8 +1,10 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 
 import './App.css'
 import TabList from './components/TabList'
 import ImageThumbnails from './components/ImageThumbnails'
+
+let interval = ''
 
 // These are the lists used in the application. You can move them to any component needed.
 const tabsList = [
@@ -259,8 +261,15 @@ const App = () => {
   const [timer, setTimer] = useState(60)
   const [activeTabId, setActiveTabId] = useState(tabsList[0].tabId)
 
-  //   const number = Math.ceil(Math.random() * 10)
-  //   console.log(number)
+  useEffect(() => {
+    interval = setInterval(() => {
+      setTimer(t => t - 1)
+    }, 1000)
+  }, [])
+
+  if (timer <= 0) {
+    clearInterval(interval)
+  }
 
   const getRandomImages = () => {
     const getRandomImage = Math.ceil(Math.random() * (imagesList.length - 1))
@@ -275,19 +284,68 @@ const App = () => {
     setActiveTabId(id)
   }
 
-  const getTimer = () => {
-    if (score === 1) {
-      setInterval(() => {
-        setTimer(timer - 1)
-      }, 1000)
+  const getImageThumbnails = id => {
+    getRandomImages()
+    if (randomImage.id === id) {
+      setScore(score + 1)
     }
   }
 
-  const getImageThumbnails = id => {
-    getRandomImages()
-    setScore(score + 1)
-    getTimer()
+  const getRunningGame = () => (
+    <div className="image-container">
+      <div className="random-image">
+        <img src={randomImage.imageUrl} alt="match" />
+      </div>
+      <ul className="tab-list">
+        {tabsList.map(item => (
+          <TabList
+            key={item.tabId}
+            tabDetails={item}
+            getTabImageThumbnails={getImages}
+            isActive={activeTabId === tabsList.tabId}
+          />
+        ))}
+      </ul>
+      <ul className="thumbnail-image-list">
+        {filteredList.map(item => (
+          <ImageThumbnails
+            key={item.id}
+            imageDetails={item}
+            thunbnailId={getImageThumbnails}
+          />
+        ))}
+      </ul>
+    </div>
+  )
+
+  const getBackToGame = () => {
+    setTimer(60)
+    setScore(0)
   }
+
+  const getGameOverCard = () => (
+    <div className="image-container">
+      <div className="game-over-container">
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/match-game-trophy.png"
+          alt="trophy"
+        />
+        <p>YOUR SCORE</p>
+        <h1>{score}</h1>
+        <button
+          type="button"
+          className="play-again-button"
+          onClick={getBackToGame}
+        >
+          <img
+            src="https://assets.ccbp.in/frontend/react-js/match-game-play-again-img.png"
+            alt="reset"
+          />
+          <p>PLAY AGAIN</p>
+        </button>
+      </div>
+    </div>
+  )
 
   return (
     <div className="react-app">
@@ -298,11 +356,11 @@ const App = () => {
             alt="website logo"
             className="logo-img"
           />
-          <div>
-            <h5 style={{padding: '0px 10px'}}>
-              Score : <span style={{color: '#fec653'}}>{score}</span>
-            </h5>
-            <div>
+          <ul>
+            <p style={{padding: '0px 10px'}}>
+              Score: <span style={{color: '#fec653'}}>{score}</span>
+            </p>
+            <div className="timer-container">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/match-game-timer-img.png"
                 alt="timer"
@@ -310,34 +368,11 @@ const App = () => {
                 height={16}
                 style={{padding: '0px 5px 0px 0px'}}
               />
-              <h5 style={{color: '#fec653'}}>{timer} sec</h5>
+              <p style={{color: '#fec653'}}>{timer} sec</p>
             </div>
-          </div>
-        </div>
-        <div className="image-container">
-          <div className="random-image">
-            <img src={randomImage.imageUrl} alt={randomImage.thumbnailUrl} />
-          </div>
-          <ul className="tab-list">
-            {tabsList.map(item => (
-              <TabList
-                key={item.tabId}
-                tabDetails={item}
-                getTabImageThumbnails={getImages}
-                isActive={activeTabId === tabsList.tabId}
-              />
-            ))}
-          </ul>
-          <ul className="thumbnail-image-list">
-            {filteredList.map(item => (
-              <ImageThumbnails
-                key={item.id}
-                imageDetails={item}
-                thunbnailId={getImageThumbnails}
-              />
-            ))}
           </ul>
         </div>
+        {timer <= 0 ? getGameOverCard() : getRunningGame()}
       </div>
     </div>
   )
