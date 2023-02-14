@@ -10,8 +10,8 @@ const TabList = props => {
   const activeClassName = isActive ? 'active-tab-text' : ' '
 
   return (
-    <li className={`each-tab ${activeClassName}`}>
-      <button type="button" onClick={getTabImage}>
+    <li className="each-tab">
+      <button type="button" onClick={getTabImage} className={activeClassName}>
         {tabDetails.displayText}
       </button>
     </li>

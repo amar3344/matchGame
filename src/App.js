@@ -252,8 +252,6 @@ const imagesList = [
   },
 ]
 
-console.log(imagesList.length)
-
 // Replace your code here
 const App = () => {
   const [randomImage, setRandomImage] = useState(imagesList[0])
@@ -302,7 +300,7 @@ const App = () => {
             key={item.tabId}
             tabDetails={item}
             getTabImageThumbnails={getImages}
-            isActive={activeTabId === tabsList.tabId}
+            isActive={activeTabId === item.tabId}
           />
         ))}
       </ul>
