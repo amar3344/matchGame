@@ -4,7 +4,7 @@ import './App.css'
 import TabList from './components/TabList'
 import ImageThumbnails from './components/ImageThumbnails'
 
-let interval = ''
+let interval = null
 
 // These are the lists used in the application. You can move them to any component needed.
 const tabsList = [
@@ -259,10 +259,10 @@ const App = () => {
   const [timer, setTimer] = useState(60)
   const [activeTabId, setActiveTabId] = useState(tabsList[0].tabId)
 
+  const getSetTimer = () => setTimer(t => t - 1)
+
   useEffect(() => {
-    interval = setInterval(() => {
-      setTimer(t => t - 1)
-    }, 1000)
+    interval = setInterval(getSetTimer, 1000)
   }, [])
 
   if (timer <= 0) {
@@ -282,10 +282,46 @@ const App = () => {
     setActiveTabId(id)
   }
 
+  const getSetInterval = () => {
+    interval = setInterval(getSetTimer, 1000)
+  }
+
+  const getBackToGame = () => {
+    setScore(0)
+    setTimer(60)
+    getSetInterval()
+  }
+
+  const getGameOverCard = () => (
+    <div className="image-container">
+      <div className="game-over-container">
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/match-game-trophy.png"
+          alt="trophy"
+        />
+        <p>YOUR SCORE</p>
+        <h1>{score}</h1>
+        <button
+          type="button"
+          className="play-again-button"
+          onClick={getBackToGame}
+        >
+          <img
+            src="https://assets.ccbp.in/frontend/react-js/match-game-play-again-img.png"
+            alt="reset"
+          />
+          <p>PLAY AGAIN</p>
+        </button>
+      </div>
+    </div>
+  )
+
   const getImageThumbnails = id => {
-    getRandomImages()
     if (randomImage.id === id) {
+      getRandomImages()
       setScore(score + 1)
+    } else {
+      getGameOverCard()
     }
   }
 
@@ -313,35 +349,6 @@ const App = () => {
           />
         ))}
       </ul>
-    </div>
-  )
-
-  const getBackToGame = () => {
-    setTimer(60)
-    setScore(0)
-  }
-
-  const getGameOverCard = () => (
-    <div className="image-container">
-      <div className="game-over-container">
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/match-game-trophy.png"
-          alt="trophy"
-        />
-        <p>YOUR SCORE</p>
-        <h1>{score}</h1>
-        <button
-          type="button"
-          className="play-again-button"
-          onClick={getBackToGame}
-        >
-          <img
-            src="https://assets.ccbp.in/frontend/react-js/match-game-play-again-img.png"
-            alt="reset"
-          />
-          <p>PLAY AGAIN</p>
-        </button>
-      </div>
     </div>
   )
 
