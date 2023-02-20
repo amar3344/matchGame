@@ -26,6 +26,13 @@ body {
   height: 100%;
 }
 
+@media (min-width: 768px) {
+  .game-container {
+    width: 700px;
+    height: 100%;
+  }
+}
+
 .score-cont {
   background-color: #2c0e3a;
   padding: 10px;
@@ -59,9 +66,22 @@ body {
   align-items: center;
 }
 
+@media (min-width: 768px) {
+  .image-container {
+    height: 100%;
+  }
+}
+
 .random-image {
   width: 100%;
   padding: 20px 10px;
+}
+
+@media (min-width: 768px) {
+  .random-image {
+    width: 450px;
+    padding: 30px 20px;
+  }
 }
 
 .random-image img {
@@ -92,8 +112,14 @@ body {
   justify-content: center;
 }
 
+@media (min-width: 768px) {
+  .thumbnail-image-list {
+    width: 450px;
+  }
+}
+
 .game-over-container {
-  width: 90%;
+  width: 300px;
   height: 500px;
   background-image: url('https://assets.ccbp.in/frontend/react-js/match-game-score-card-sm-bg.png');
   background-size: cover;

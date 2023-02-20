@@ -256,7 +256,7 @@ const imagesList = [
 const App = () => {
   const [randomImage, setRandomImage] = useState(imagesList[0])
   const [score, setScore] = useState(0)
-  const [timer, setTimer] = useState(60)
+  const [timer, setTimer] = useState(6)
   const [activeTabId, setActiveTabId] = useState(tabsList[0].tabId)
 
   const getSetTimer = () => setTimer(t => t - 1)
