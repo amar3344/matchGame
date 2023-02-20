@@ -362,10 +362,12 @@ const App = () => {
             className="logo-img"
           />
           <ul>
-            <p style={{padding: '0px 10px'}}>
-              Score: <span style={{color: '#fec653'}}>{score}</span>
-            </p>
-            <div className="timer-container">
+            <li>
+              <p style={{padding: '0px 10px'}}>
+                Score: <span style={{color: '#fec653'}}>{score}</span>
+              </p>
+            </li>
+            <li className="timer-container">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/match-game-timer-img.png"
                 alt="timer"
@@ -374,7 +376,7 @@ const App = () => {
                 style={{padding: '0px 5px 0px 0px'}}
               />
               <p style={{color: '#fec653'}}>{timer} sec</p>
-            </div>
+            </li>
           </ul>
         </div>
         {timer <= 0 ? getGameOverCard() : getRunningGame()}
